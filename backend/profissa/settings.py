@@ -41,6 +41,7 @@ LOCAL_APPS = [
     'apps.jobs',
     'apps.users',
     'apps.reviews',
+    "apps.jobrequests",
 ]
 
 INSTALLED_APPS = [
