@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
-from .viewsets import JobViewSet
+from .viewsets import JobViewSet, JobCategoryViewSet
 
 router = DefaultRouter()
-router.register(r'jobs', JobViewSet)
-
+router.register(r'jobs', JobViewSet, basename='job')
+router.register(r'job-categories', JobCategoryViewSet, basename='category')
 urlpatterns = router.urls

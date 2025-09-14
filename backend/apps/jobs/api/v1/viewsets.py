@@ -1,10 +1,32 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
+from apps.jobs.models import Job, JobCategory
+from .serializers import JobSerializer, JobUpdateSerializer, JobCategorySerializer, JobCategoryUpdateSerializer
+from apps.core.mixins.public_actions import PublicActionsMixin 
+from apps.core.mixins.update_serializer_mixin import UpdateSerializerMixin
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import AllowAny
-from apps.jobs.models import Job
-from .serializers import JobSerializer
 
-class JobViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Job.objects.all()
+@extend_schema(tags=['Jobs'])
+class JobViewSet(PublicActionsMixin, UpdateSerializerMixin,  viewsets.ModelViewSet):
     serializer_class = JobSerializer
-    permission_classes = [AllowAny]
+    update_serializer_class = JobUpdateSerializer
+    queryset = Job.objects.all()    
+    permission_classes = [IsAuthenticated]
+
+    def get_public_queryset(self):
+        return Job.objects.actives()  
+    
+    def perform_create(self, serializer):
+        serializer.save(professional=self.request.user)
+    
+
+@extend_schema(tags=['Job Categories'])
+class JobCategoryViewSet(PublicActionsMixin, UpdateSerializerMixin, viewsets.ModelViewSet):
+    serializer_class = JobCategorySerializer
+    update_serializer_class = JobCategoryUpdateSerializer
+    queryset = JobCategory.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_public_queryset(self):
+        return JobCategory.objects.actives()
+    

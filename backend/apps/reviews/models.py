@@ -2,6 +2,7 @@ from django.db import models
 from apps.core.models import BaseModel
 from apps.jobs.models import Job
 from apps.users.models import User
+from .managers import ReviewManager
 
 
 class Review(BaseModel):
@@ -40,7 +41,8 @@ class Review(BaseModel):
     )
     comment = models.TextField("Comentário", blank=True, null=True)
     
-
+    objects = ReviewManager()
+    
     class Meta:
         verbose_name = "Avaliação"
         verbose_name_plural = "Avaliações"

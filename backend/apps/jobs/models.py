@@ -3,7 +3,7 @@ from apps.core.models import BaseModel
 from apps.users.models import User
 from .managers import JobManager, JobCategoryManager
 
-class JobCategory(models.Model):
+class JobCategory(BaseModel):
     name = models.CharField("Nome da categoria", max_length=100, unique=True)
     description = models.TextField("Descrição", blank=True, null=True)
 

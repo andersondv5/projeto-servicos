@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from apps.jobs.models import Job
 from apps.core.models import BaseModel
+from apps.users.models import User
+from .managers import JobRequestsManager
 
 class JobRequest(BaseModel):
     class Status(models.TextChoices):
@@ -18,16 +20,18 @@ class JobRequest(BaseModel):
         verbose_name="Serviço"
     )
     client = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name="job_requests",
+        limit_choices_to={"user_type": User.UserType.CLIENT},
         verbose_name="Cliente"
     )
     professional = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name="job_requests_received",
-        verbose_name="Profissional"
+        limit_choices_to={"user_type": User.UserType.PROFESSIONAL},
+        verbose_name="Profissional" 
     )
     scheduled_date = models.DateTimeField(
         null=True,
@@ -45,6 +49,8 @@ class JobRequest(BaseModel):
         default=Status.PENDING,
         verbose_name="Status"
     )
+    
+    objects = JobRequestsManager()
 
     class Meta:
         ordering = ["-created_at"]

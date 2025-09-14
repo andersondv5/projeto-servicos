@@ -8,6 +8,9 @@ class JobManager(models.Manager):
     def actives(self):
         return self.get_queryset().actives()
     
+    def by_category(self, category_id):
+        return self.get_queryset().by_category(category_id)
+    
 
 class JobCategoryManager(models.Manager):
     def get_queryset(self):
