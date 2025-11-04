@@ -1,3 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+:root {
+  /* Colors */
+  --main-color: #015A83;
+  --second-color: #F7F7F7;
+  --third-color: #F9F4EA;
+  --buttons-color: #015A83;
+  --buttons-hover-color: #024767;
+  --text-color: #ffffff;
+  --text-secondary: #000;
+  --link-hover-color: #7BBBE8;
+
+  /* Text */
+  --normal-text-size: 17px;
+
+  /* Borders */
+  --transparent-border: 1px solid transparent;
+
+  /* Font */  
+  --normal-weigth: 400;
+}
+
+body {
+  background-color: var(--second-color)
+}

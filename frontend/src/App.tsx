@@ -1,22 +1,32 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import ProfessionalProfile from './components/ProfessionalProfile';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider, useAuth } from "./lib/context/AuthContext";
+import AppRoutes from "./routes";
+
+// Cria a instância do QueryClient
+const queryClient = new QueryClient();
+
+function AppContent() {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated === null) {
+    return <div>Verificando sessão...</div>; // Bloqueia renderização até validar a sessão
+  }
+
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100">
-        <header className="bg-white shadow-sm p-4">
-          <h1 className="text-2xl font-bold text-center text-blue-600">Profissa</h1>
-        </header>
-        <main className="container mx-auto p-4">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/professional/:id" element={<ProfessionalProfile />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppContent />
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }
 
