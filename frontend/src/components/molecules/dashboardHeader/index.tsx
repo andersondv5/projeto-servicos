@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaChevronDown, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaUserCircle, FaChevronDown, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../../../lib/context/AuthContext";
 import { Link } from "react-router-dom";
 import Logo from "../../atoms/logo";
@@ -47,7 +47,7 @@ function DashboardHeader() {
                 className="group flex items-center justify-between rounded-md border border-transparent px-2.5 py-2 text-sm font-semibold text-slate-900 hover:hover:bg-(--third-color) hover:tex-(--main-color) active:border-indigo-200 active:bg-indigo-100 sm:gap-2"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
               >
-                <span className="inline-block">John Doe</span>
+                <span className="inline-block"><FaUserCircle size={24} className="text-gray-700"/></span>
                 <FaChevronDown />
               </button>
               {/* END Dropdown Toggle Button */}

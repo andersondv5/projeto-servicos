@@ -4,20 +4,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
 import { FaRegTrashAlt, FaPencilAlt } from "react-icons/fa";
 import Button from "../../atoms/button";
-
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  category: number;
-  created_at: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import type { Category } from "../../../lib/types/types";
+import type { Job } from "../../../lib/types/types";
 
 function ServicesByProfessional() {
   const navigate = useNavigate();
@@ -49,7 +37,7 @@ function ServicesByProfessional() {
     return category ? category.name : "Categoria não encontrada";
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir este serviço?")) {
       try {
         await api.delete(`/api/v1/jobs/${id}/`);
@@ -109,36 +97,36 @@ function ServicesByProfessional() {
               </tr>
             </thead>
             <tbody>
-              {services.map((service: Service, index: number) => (
+              {services.map((job: Job, index: number) => (
                 <tr
-                  key={service.id}
+                  key={job.id}
                   className={`hover:bg-(--third-color) ${
                     index % 2 === 1 ? "bg-(--second-color)" : ""
                   }`}
                 >
                   <td className="p-3 text-start">
-                    {service.title}
+                    {job.title}
                     <div className="text-xs text-slate-500 mt-1 md:hidden">
-                      {getCategoryName(service.category)}
+                      {getCategoryName(job.category)}
                     </div>
                   </td>
                   <td className="hidden p-3 text-slate-600 md:table-cell">
-                    {getCategoryName(service.category)}
+                    {getCategoryName(job.category)}
                   </td>
                   <td className="hidden p-3 text-end font-medium md:table-cell">
-                    {formatPrice(service.price)}
+                    {formatPrice(job.price)}
                   </td>
                   <td className="p-3 text-end font-medium">
                     <button
                       onClick={() =>
-                        navigate(`/dashboard/jobs/${service.id}/edit/`)
+                        navigate(`/dashboard/jobs/${job.id}/edit/`)
                       }
                       className="bg-blue-600 hover:bg-blue-700 px-2 py-2 me-2 rounded w-auto cursor-pointer"
                     >
                       <FaPencilAlt className="w-3 h-3 text-white" />
                     </button>
                     <button
-                      onClick={() => handleDelete(service.id)}
+                      onClick={() => handleDelete(job.id)}
                       className="bg-red-600 hover:bg-red-700 px-2 py-2 rounded w-auto cursor-pointer"
                     >
                       <FaRegTrashAlt className="w-3 h-3 text-white" />

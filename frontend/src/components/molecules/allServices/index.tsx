@@ -4,20 +4,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
 import PageTitle from "../../atoms/pageTitle";
 import Badge from "../../atoms/badge";
+import type { Job } from "../../../lib/types/types";
+import type { Category } from "../../../lib/types/types";
 
-interface Service {
-  id: string;
-  title: string;
-  description: string;
-  price: string;
-  category: number;
-  created_at: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
 
 function AllServices() {
   const navigate = useNavigate();
@@ -65,24 +54,24 @@ function AllServices() {
 
       {/* Grid de Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service: Service) => (
+        {services.map((job: Job) => (
           <div
-            key={service.id}
+            key={job.id}
             className="bg-white rounded-lg shadow-sm p-6 cursor-pointer"
-            onClick={() => navigate(`dashboard/jobs/${service.id}/edit`)}
+            onClick={() => navigate(`dashboard/jobs/${job.id}/edit`)}
           >
             <h3 className="text-xl font-semibold text-(--main-color) mb-4">
-              {service.title}
+              {job.title}
             </h3>
             <p className="text-gray-700 mb-4 line-clamp-3">
-              {service.description}
+              {job.description}
             </p>
             <div className="flex justify-between items-center">
               
 
-              <Badge name={getCategoryName(service.category)}/>
+              <Badge name={getCategoryName(job.category)}/>
               <p className="text-gray-700 font-semibold">
-                {formatPrice(service.price)}
+                {formatPrice(job.price)}
               </p>
             </div>
           </div>
